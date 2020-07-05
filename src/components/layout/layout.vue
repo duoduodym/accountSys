@@ -1,7 +1,7 @@
 <template>
 	<div class="container" ref="container">
 		<div class="header" ref="header">
-			<h2 class="fl">财务平台管理系统</h2>
+			<h2 class="fl">辅管家平台管理系统</h2>
 			<div class="fr btn-wrap">
 				<span>欢迎您，系统管理员</span>
 				<em class="setting cur-p" @click.stop="openModif"></em>

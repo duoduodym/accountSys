@@ -26,7 +26,10 @@ export default {
 	props: {},
 	data() {
 		return {
-            ruleForm:{},
+            ruleForm:{
+                phone:'',
+                password:''
+            },
             isRememberPsd:false,
         }
     },
@@ -44,9 +47,13 @@ export default {
         },
         onLogin(){
             if(this.onValidate()){
-                login(this.ruleForm).then(res => {
-                    
-                })
+                if(this.ruleForm.phone != 'admin' || this.ruleForm.password != 'admin'){
+                    this.$message.error('账号或密码错误')
+                    return
+                }
+               this.$router.push({
+                   path:'/'
+               })
             }
         }
     }

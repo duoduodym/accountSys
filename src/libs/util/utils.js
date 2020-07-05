@@ -41,3 +41,28 @@ function getType(obj) {
     }
     return obj;
   }
+
+  export function getCos(){
+    const Bucket = 'fzg-1300449266';
+    const Region = 'ap-shanghai';
+    var cos = new COS({
+        getAuthorization: function (options, callback) {
+            // 异步获取临时密钥
+            // $.get('http://example.com/server/sts.php', {
+            //     bucket: options.Bucket,
+            //     region: options.Region,
+            // }, function (data) {
+            //     var credentials = data && data.credentials;
+            //     if (!data || !credentials) return console.error('credentials invalid');
+            //     callback({
+            //         TmpSecretId: credentials.tmpSecretId,
+            //         TmpSecretKey: credentials.tmpSecretKey,
+            //         XCosSecurityToken: credentials.sessionToken,
+            //         // 建议返回服务器时间作为签名的开始时间，避免用户浏览器本地时间偏差过大导致签名错误
+            //         StartTime: data.startTime, // 时间戳，单位秒，如：1580000000
+            //         ExpiredTime: data.expiredTime, // 时间戳，单位秒，如：1580000900
+            //     });
+            // });
+        }
+    });
+  }

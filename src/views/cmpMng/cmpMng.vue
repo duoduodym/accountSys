@@ -1,6 +1,12 @@
 <template>
   <div class="container">
-    <pagePanel ref="pagePanel" :url="apis.cmpMng.find" fromType="tenants" :searchForm="searchForm"  :joinForm="searchForm">
+    <pagePanel
+      ref="pagePanel"
+      :url="apis.cmpMng.find"
+      fromType="tenants"
+      :searchForm="searchForm"
+      :joinForm="searchForm"
+    >
       <template slot="search-item">
         <el-row>
           <el-col :span="8">
@@ -38,8 +44,20 @@
               class="table-btn-blue"
               @click="editCmp(scope.row)"
             >编辑</el-button>
-            <el-button type="text" size="small" class="table-btn-red" v-if="scope.row.tenantStatus == 1" @click="onSwitch(scope.row)">停用</el-button>
-            <el-button type="text" size="small" class="table-btn-red" v-if="scope.row.tenantStatus == 2" @click="onSwitch(scope.row)">启用</el-button>
+            <el-button
+              type="text"
+              size="small"
+              class="table-btn-red"
+              v-if="scope.row.tenantStatus == 2"
+              @click="onSwitch(scope.row)"
+            >停用</el-button>
+            <el-button
+              type="text"
+              size="small"
+              class="table-btn-blue"
+              v-if="scope.row.tenantStatus == 1"
+              @click="onSwitch(scope.row)"
+            >启用</el-button>
             <el-button type="text" size="small" class="table-btn-red" @click="onDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -64,7 +82,7 @@
 import pagePanel from "@/components/pagePanel/pagePanel";
 import detail from "./detail";
 import apis from "@/request/apis/apis";
-import { switcheCmp,delCmp} from "@/request/apis/cmpMng";
+import { switcheCmp, delCmp } from "@/request/apis/cmpMng";
 export default {
   components: {
     pagePanel,
@@ -81,35 +99,48 @@ export default {
   },
 
   methods: {
-    onDel(row){
-      	this.$messageBox
-				.confirm('是否要删除所选数据?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				})
-				.then(() => {
-					delCmp(row.tenantId).then(res => {
-						if(res.code == '0'){
-              setTimeout(()=>{
-                	this.$refs.pagePanel.onSearch()
-              },2000)
-              this.$message.success('删除成功')
-						}else{
-							this.$message.error({
-								message: res.msg
-							})
-						}
-					})
-				})
+ 
+    onDel(row) {
+      this.$messageBox
+        .confirm("是否要删除所选数据?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(() => {
+          delCmp(row.tenantId).then(res => {
+            if (res.code == "0") {
+              setTimeout(() => {
+                this.$refs.pagePanel.onSearch();
+              }, 2000);
+              this.$message.success("删除成功");
+            } else {
+              this.$message.error({
+                message: res.msg
+              });
+            }
+          });
+        });
     },
-    onSwitch(row){
-      const state = row.tenantStatus == 1 ? 2 : 1
-      switcheCmp(row.tenantId,{
-        status:state
-      }).then(res => {
-        console.log(res)
-      })
+    onSwitch(row) {
+      const state = row.tenantStatus == 1 ? 2 : 1;
+      const str = state == 2 ? "是否要停用所选数据?" : "是否要启用所选数据?";
+      const str1 = state == 2 ? "停用成功" : "启用成功";
+      this.$messageBox
+        .confirm(str, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(res => {
+          switcheCmp(row.tenantId, {
+            status: state
+          }).then(res => {
+            if (res.code == 0) {
+              this.$message.success(str1);
+            }
+          });
+        });
     },
     editCmp(row) {
       this.title = "编辑企业";

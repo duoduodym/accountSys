@@ -75,6 +75,7 @@
 <script>
 import { createCmp, updateCmp } from "@/request/apis/cmpMng";
 import { deepClone } from "@/libs/util/utils";
+
 export default {
   props: {
     cmpObj: Object
